@@ -56,7 +56,7 @@ public class HotelTest
         newAddress.put("suburb", "Cape Town City Centre");
 
         Hotel hotel = HotelFactory.createHotel("African Pride", 15, address, "Cape Town",contact);
-        Hotel newHotel = new Hotel.Builder(hotel.getHotelName()).streetName(newAddress.get("streetName")).suburb(newAddress.get("suburb")).build();
+        Hotel newHotel = new Hotel.Builder(hotel.getHotelName()).copy(hotel).streetName(newAddress.get("streetName")).suburb(newAddress.get("suburb")).build();
 
         Assert.assertEquals("Orange Street", hotel.getStreetName());
         Assert.assertEquals("Gardens", hotel.getSuburb());

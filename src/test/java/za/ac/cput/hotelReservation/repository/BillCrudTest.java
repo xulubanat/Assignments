@@ -31,7 +31,7 @@ public class BillCrudTest extends AbstractTestNGSpringContextTests
     {
         List<Reservation> reservation = new ArrayList<>();
 
-        Bill bill = BillFactory.createBill(1200, reservation);
+        Bill bill = BillFactory.createBill("2 bedroom",1200, null);
         repository.save(bill);
         id = bill.getBillId();
         Assert.assertNotNull(bill.getBillId());
@@ -40,7 +40,8 @@ public class BillCrudTest extends AbstractTestNGSpringContextTests
     @Test(dependsOnMethods = "create")
     public void read() throws Exception
     {
-
+        Bill bill = repository.findOne(id);
+        Assert.assertNotNull(bill.getBillId());
     }
 
     @Test(dependsOnMethods = "read")
@@ -49,7 +50,11 @@ public class BillCrudTest extends AbstractTestNGSpringContextTests
     }
 
     @Test(dependsOnMethods = "update")
-    public void delete() throws Exception {
-
+    public void delete() throws Exception
+    {
+        Bill bill = repository.findOne(id);
+        repository.delete(bill);
+        Bill deleteBill = repository.findOne(id);
+        Assert.assertNull(deleteBill);
     }
 }

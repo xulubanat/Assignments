@@ -2,28 +2,29 @@ package za.ac.cput.hotelReservation.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by student on 2015/12/25.
+ * Created by student on 2016/06/20.
  */
 @Entity
 public class Reservation implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long reservationId;
     private String arrivalDate;
     private String departDate;
     private boolean smookingRoom;
     private int numOfBed;
     private String highOrLowFloor;
-    @ManyToOne
+    @ManyToOne(targetEntity = Hotel.class)
     @JoinColumn(name = "hotelName")
-    private List<Hotel> hotel;
-    @ManyToOne
+    private List<Hotel> hotel = new ArrayList<Hotel>();
+    @ManyToOne(targetEntity = Guest.class)
     @JoinColumn(name = "guestId")
-    private List<Guest> guest;
+    private List<Guest> guest = new ArrayList<Guest>();
 
     private Reservation()
     {

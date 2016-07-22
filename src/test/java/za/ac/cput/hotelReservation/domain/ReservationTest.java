@@ -54,7 +54,7 @@ public class ReservationTest
         dates.put("departDate", "29-Dec-2015");
 
         Reservation reservation = ReservationFactory.createReservation(dates, false, 2, "high", hotel, guest);
-        Reservation newReserv = new Reservation.Builder(reservation.getArrivalDate()).smookingRoom(true).build();
+        Reservation newReserv = new Reservation.Builder(reservation.getArrivalDate()).copy(reservation).smookingRoom(true).build();
 
         Assert.assertEquals("28-Dec-2015", reservation.getArrivalDate());
         Assert.assertEquals(false, reservation.isSmookingRoom());

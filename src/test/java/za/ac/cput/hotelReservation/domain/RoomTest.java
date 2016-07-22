@@ -35,7 +35,7 @@ public class RoomTest
         List<Hotel> hotel = new ArrayList<>();
 
         Room room = RoomFactory.createRoom(true, "pent house", 1, hotel);
-        Room newRoom = new Room.Builder(room.isSmookingRoom()).numBeds(2).build();
+        Room newRoom = new Room.Builder(room.isSmookingRoom()).copy(room).numBeds(2).build();
 
         Assert.assertEquals(1, room.getNumBeds());
         Assert.assertEquals(2, newRoom.getNumBeds());

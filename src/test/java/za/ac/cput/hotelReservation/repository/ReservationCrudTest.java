@@ -39,10 +39,31 @@ public class ReservationCrudTest extends AbstractTestNGSpringContextTests
         dates.put("arrivalDate", "28-Dec-2015");
         dates.put("departDate", "29-Dec-2015");
 
-        Reservation reservation = ReservationFactory.createReservation(dates, false, 2, "high", hotel, guest);
+        Reservation reservation = ReservationFactory.createReservation(dates, false, 2, "high", null, null);
         repository.save(reservation);
         id = reservation.getReservationId();
 
         Assert.assertNotNull(reservation.getReservationId());
+    }
+
+    @Test(dependsOnMethods = "create")
+    public void read() throws Exception
+    {
+        Reservation reservation = repository.findOne(id);
+        Assert.assertNotNull(reservation.getReservationId());
+    }
+
+    @Test(dependsOnMethods = "read")
+    public void update() throws Exception
+    {
+    }
+
+    @Test(dependsOnMethods = "update")
+    public void delete() throws Exception
+    {
+        Reservation reservation = repository.findOne(id);
+        repository.delete(reservation);
+        Reservation deleteReserv = repository.findOne(id);
+        Assert.assertNull(deleteReserv);
     }
 }

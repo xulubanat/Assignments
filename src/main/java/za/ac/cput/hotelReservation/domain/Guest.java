@@ -8,13 +8,13 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * Created by student on 2015/12/25.
+ * Created by student on 2016/06/20.
  */
 @Entity
 public class Guest implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long guestId;
     private String title;
     private String initials;

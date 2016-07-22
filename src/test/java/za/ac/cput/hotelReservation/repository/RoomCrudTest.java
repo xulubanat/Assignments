@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import za.ac.cput.hotelReservation.App;
 import za.ac.cput.hotelReservation.domain.Hotel;
+import za.ac.cput.hotelReservation.domain.Reservation;
 import za.ac.cput.hotelReservation.domain.Room;
 import za.ac.cput.hotelReservation.factory.RoomFactory;
 
@@ -29,11 +30,33 @@ public class RoomCrudTest extends AbstractTestNGSpringContextTests
     @Test
     public void create() throws Exception
     {
-        List<Hotel> hotel = new ArrayList<>();
+        List<Hotel> hotel = new ArrayList<Hotel>();
 
-        Room room = RoomFactory.createRoom(true, "pent house", 1, hotel);
+        Room room = RoomFactory.createRoom(true, "pent house", 1, null);
         repository.save(room);
         id = room.getRoomId();
         Assert.assertNotNull(room.getRoomId());
     }
+
+    @Test(dependsOnMethods = "create")
+    public void read() throws Exception
+    {
+        Room room = repository.findOne(id);
+        Assert.assertNotNull(room.getRoomId());
+    }
+
+    @Test(dependsOnMethods = "read")
+    public void update() throws Exception
+    {
+    }
+
+    @Test(dependsOnMethods = "update")
+    public void delete() throws Exception
+    {
+        Room room = repository.findOne(id);
+        repository.delete(room);
+        Room deleteRoom = repository.findOne(id);
+        Assert.assertNull(deleteRoom);
+    }
 }
+

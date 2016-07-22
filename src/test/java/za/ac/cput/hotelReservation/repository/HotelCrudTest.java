@@ -20,7 +20,7 @@ import java.util.Map;
 @WebAppConfiguration
 public class HotelCrudTest extends AbstractTestNGSpringContextTests
 {
-    private String id;
+    private Long id;
 
     @Autowired
     private HotelRepo repository;
@@ -38,8 +38,28 @@ public class HotelCrudTest extends AbstractTestNGSpringContextTests
 
         Hotel hotel = HotelFactory.createHotel("African Pride", 15, address, "Cape Town", contact);
         repository.save(hotel);
-        id = hotel.getHotelName();
+        id = hotel.getId();
         Assert.assertNotNull(hotel.getHotelName());
+    }
 
+    @Test(dependsOnMethods = "create")
+    public void read() throws Exception
+    {
+        Hotel hotel = repository.findOne(id);
+        Assert.assertNotNull(hotel.getHotelName());
+    }
+
+    @Test(dependsOnMethods = "read")
+    public void update() throws Exception
+    {
+    }
+
+    @Test(dependsOnMethods = "update")
+    public void delete() throws Exception
+    {
+        Hotel hotel = repository.findOne(id);
+        repository.delete(hotel);
+        Hotel deleteHotel = repository.findOne(id);
+        Assert.assertNull(deleteHotel);
     }
 }

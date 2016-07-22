@@ -1,24 +1,25 @@
 package za.ac.cput.hotelReservation.domain;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by student on 2015/12/25.
+ * Created by student on 2016/06/20.
  */
 @Entity
 public class Bill implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long billId;
+    private String itemDescr;
     private float totalAmount;
-    @OneToOne
+    @OneToOne(targetEntity = Reservation.class)
     @JoinColumn(name = "reservationId")
-    private List<Reservation> reservation;
+    private List<Reservation> reservation = new ArrayList<Reservation>();
+
 
     private Bill()
     {
@@ -26,6 +27,10 @@ public class Bill implements Serializable
 
     public Long getBillId() {
         return billId;
+    }
+
+    public String getItemDescr() {
+        return itemDescr;
     }
 
     public float getTotalAmount() {
@@ -39,6 +44,7 @@ public class Bill implements Serializable
     public Bill(Builder builder)
     {
         billId = builder.billId;
+        itemDescr = builder.itemDescr;
         totalAmount = builder.totalAmount;
         reservation = builder.reservation;
     }
@@ -46,17 +52,24 @@ public class Bill implements Serializable
     public static class Builder
     {
         private Long billId;
+        private String itemDescr;
         private float totalAmount;
         private List<Reservation> reservation;
 
-        public Builder(float totalAmount)
+        public Builder(String itemDescr)
         {
-            this.totalAmount = totalAmount;
+            this.itemDescr = itemDescr;
         }
 
         public Builder billId(Long value)
         {
             this.billId = value;
+            return this;
+        }
+
+        public Builder totalAmount(float value)
+        {
+            this.totalAmount = value;
             return this;
         }
 
@@ -69,6 +82,7 @@ public class Bill implements Serializable
         public Builder copy(Bill value)
         {
             this.billId = value.getBillId();
+            this.itemDescr = value.getItemDescr();
             this.totalAmount = value.getTotalAmount();
             this.reservation = value.getReservation();
 
@@ -89,6 +103,7 @@ public class Bill implements Serializable
 
         if (Float.compare(bill.totalAmount, totalAmount) != 0) return false;
         if (billId != null ? !billId.equals(bill.billId) : bill.billId != null) return false;
+        if (itemDescr != null ? !itemDescr.equals(bill.itemDescr) : bill.itemDescr != null) return false;
         if (reservation != null ? !reservation.equals(bill.reservation) : bill.reservation != null) return false;
 
         return true;
@@ -97,6 +112,7 @@ public class Bill implements Serializable
     @Override
     public int hashCode() {
         int result = billId != null ? billId.hashCode() : 0;
+        result = 31 * result + (itemDescr != null ? itemDescr.hashCode() : 0);
         result = 31 * result + (totalAmount != +0.0f ? Float.floatToIntBits(totalAmount) : 0);
         result = 31 * result + (reservation != null ? reservation.hashCode() : 0);
         return result;
@@ -106,8 +122,10 @@ public class Bill implements Serializable
     public String toString() {
         return "Bill{" +
                 "billId=" + billId +
+                ", itemDescr='" + itemDescr + '\'' +
                 ", totalAmount=" + totalAmount +
                 ", reservation=" + reservation +
                 '}';
     }
+
 }

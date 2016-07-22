@@ -43,6 +43,26 @@ public class GuestCrudTest extends AbstractTestNGSpringContextTests
         repository.save(guest);
         id = guest.getGuestId();
         Assert.assertNotNull(guest.getGuestId());
+    }
 
+    @Test(dependsOnMethods = "create")
+    public void read() throws Exception
+    {
+        Guest guest = repository.findOne(id);
+        Assert.assertNotNull(guest.getGuestId());
+    }
+
+    @Test(dependsOnMethods = "read")
+    public void update() throws Exception
+    {
+    }
+
+    @Test(dependsOnMethods = "update")
+    public void delete() throws Exception
+    {
+        Guest guest = repository.findOne(id);
+        repository.delete(guest);
+        Guest deleteGuest = repository.findOne(id);
+        Assert.assertNull(deleteGuest);
     }
 }

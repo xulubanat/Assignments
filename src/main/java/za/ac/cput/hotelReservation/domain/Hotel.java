@@ -4,13 +4,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by student on 2015/12/25.
+ * Created by student on 2016/06/20.
  */
 @Entity
 public class Hotel implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String hotelName;
     private int streetNum;
     private String streetName;
@@ -21,6 +22,10 @@ public class Hotel implements Serializable
 
     private Hotel()
     {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getHotelName() {
@@ -53,6 +58,7 @@ public class Hotel implements Serializable
 
     public Hotel(Builder builder)
     {
+        id = builder.id;
         hotelName = builder.hotelName;
         streetNum = builder.streetNum;
         streetName = builder.streetName;
@@ -71,6 +77,7 @@ public class Hotel implements Serializable
         private String city;
         private String phoneNumber;
         private String webAddress;
+        private Long id;
 
         public Builder(String hotelName)
         {
@@ -80,6 +87,12 @@ public class Hotel implements Serializable
         public Builder streetNum(int value)
         {
             this.streetNum = value;
+            return this;
+        }
+
+        public Builder id(Long value)
+        {
+            this.id = value;
             return this;
         }
 
@@ -115,6 +128,7 @@ public class Hotel implements Serializable
 
         public Builder copy(Hotel value)
         {
+            this.id = value.getId();
             this.hotelName = value.getHotelName();
             this.streetNum = value.getStreetNum();
             this.streetName = value.getStreetName();
@@ -142,6 +156,7 @@ public class Hotel implements Serializable
         if (streetNum != hotel.streetNum) return false;
         if (city != null ? !city.equals(hotel.city) : hotel.city != null) return false;
         if (hotelName != null ? !hotelName.equals(hotel.hotelName) : hotel.hotelName != null) return false;
+        if (id != null ? !id.equals(hotel.id) : hotel.id != null) return false;
         if (phoneNumber != null ? !phoneNumber.equals(hotel.phoneNumber) : hotel.phoneNumber != null) return false;
         if (streetName != null ? !streetName.equals(hotel.streetName) : hotel.streetName != null) return false;
         if (suburb != null ? !suburb.equals(hotel.suburb) : hotel.suburb != null) return false;
@@ -152,7 +167,8 @@ public class Hotel implements Serializable
 
     @Override
     public int hashCode() {
-        int result = hotelName != null ? hotelName.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (hotelName != null ? hotelName.hashCode() : 0);
         result = 31 * result + streetNum;
         result = 31 * result + (streetName != null ? streetName.hashCode() : 0);
         result = 31 * result + (suburb != null ? suburb.hashCode() : 0);
@@ -165,7 +181,8 @@ public class Hotel implements Serializable
     @Override
     public String toString() {
         return "Hotel{" +
-                "hotelName='" + hotelName + '\'' +
+                "id=" + id +
+                ", hotelName='" + hotelName + '\'' +
                 ", streetNum=" + streetNum +
                 ", streetName='" + streetName + '\'' +
                 ", suburb='" + suburb + '\'' +

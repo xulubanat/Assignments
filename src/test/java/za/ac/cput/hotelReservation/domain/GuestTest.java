@@ -53,7 +53,7 @@ public class GuestTest
         contactDet.put("emailAddress", "yangaba@yahoo.com");
 
         Guest guest = GuestFactory.createGuest(title, names, contactDet);
-        Guest newGuest = new Guest.Builder(guest.getfName()).title("Mr").build();
+        Guest newGuest = new Guest.Builder(guest.getfName()).copy(guest).title("Mr").build();
 
         Assert.assertEquals("YA", guest.getInitials());
         Assert.assertEquals("Miss", guest.getTitle());

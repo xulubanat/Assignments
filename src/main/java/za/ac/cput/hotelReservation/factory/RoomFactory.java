@@ -10,10 +10,6 @@ import java.util.List;
  */
 public class RoomFactory
 {
-    private boolean smookingRoom;
-    private String roomDescr;
-    private int numBeds;
-    private List<Hotel> hotel;
 
     public static Room createRoom(boolean smookingRoom, String roomDescr, int numBeds, List<Hotel> hotel)
     {

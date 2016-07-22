@@ -26,7 +26,7 @@ public class BillTest
     {
         List<Reservation> reservation = new ArrayList<>();
 
-        Bill bill = BillFactory.createBill(1200, reservation);
+        Bill bill = BillFactory.createBill("2 bedroom",1200, reservation);
 
         Assert.assertEquals(String.valueOf(1200.00), String.valueOf(bill.getTotalAmount()));
     }
@@ -36,8 +36,8 @@ public class BillTest
     {
         List<Reservation> reservation = new ArrayList<>();
 
-        Bill bill = BillFactory.createBill(1200, reservation);
-        Bill newBill = new Bill.Builder(1500).build();
+        Bill bill = BillFactory.createBill("2 bedroom",1200, reservation);
+        Bill newBill = new Bill.Builder(bill.getItemDescr()).copy(bill).totalAmount(1500).build();
 
         Assert.assertEquals(String.valueOf(1200.00), String.valueOf(bill.getTotalAmount()));
         Assert.assertEquals(String.valueOf(1500.00), String.valueOf(newBill.getTotalAmount()));
